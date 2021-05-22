@@ -1,6 +1,11 @@
 import 'package:bmi_calculator/constants/routes.dart';
+import 'package:bmi_calculator/screens/bmi_page.dart';
+import 'package:concentric_transition/page_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:google_fonts/google_fonts.dart';
+//import 'package:page_transition/page_transition.dart';
 import '../constants/colors.dart';
 import '../widgets/reusable_card.dart';
 import '../constants/styles.dart';
@@ -13,6 +18,13 @@ import '../logic/types.dart';
 class InputPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Color(0xFFEB1555),
+        systemNavigationBarDividerColor: Color(0xFFEB1555),
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light));
     return Scaffold(
         appBar: AppBar(
           title: Text('BMI CALCULATOR'),
@@ -48,7 +60,20 @@ class InputPage extends StatelessWidget {
               ),
             ),
             BottomButton(
-              onTap: () => Navigator.pushNamed(context, bmi_route),
+              // onTap: () => Navigator.push(
+              //   context,
+              //   PageTransition(
+              //       type: PageTransitionType.rightToLeft,
+              //       duration: Duration(milliseconds: 350),
+              //       reverseDuration: Duration(milliseconds: 250),
+              //       child: BmiPage(),
+              //       inheritTheme: true,
+              //       ctx: context),
+              // ),
+              onTap: () =>
+                  Navigator.push(context, ConcentricPageRoute(builder: (ctx) {
+                return BmiPage();
+              })),
               text: "CALCULATE YOUR BMI",
             )
           ],
