@@ -12,7 +12,8 @@ dependencies:
 
   cupertino_icons: ^0.1.2
   font_awesome_flutter: ^8.8.1
-  concentric_transition: ^1.0.1
+  page_transition: ^2.0.2
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +21,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-     - assets/logo/

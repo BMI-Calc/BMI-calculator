@@ -1,11 +1,9 @@
-import 'package:bmi_calculator/constants/routes.dart';
 import 'package:bmi_calculator/screens/bmi_page.dart';
-import 'package:concentric_transition/page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'package:page_transition/page_transition.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import '../constants/colors.dart';
 import '../widgets/reusable_card.dart';
 import '../constants/styles.dart';
@@ -27,7 +25,9 @@ class InputPage extends StatelessWidget {
         statusBarBrightness: Brightness.light));
     return Scaffold(
         appBar: AppBar(
-          title: Text('BMI CALCULATOR'),
+          title: Text('BMI CALCULATOR',
+              style: GoogleFonts.roboto(
+                  fontSize: 17.5, fontWeight: FontWeight.w800)),
           centerTitle: true,
         ),
         body: Column(
@@ -60,20 +60,16 @@ class InputPage extends StatelessWidget {
               ),
             ),
             BottomButton(
-              // onTap: () => Navigator.push(
-              //   context,
-              //   PageTransition(
-              //       type: PageTransitionType.rightToLeft,
-              //       duration: Duration(milliseconds: 350),
-              //       reverseDuration: Duration(milliseconds: 250),
-              //       child: BmiPage(),
-              //       inheritTheme: true,
-              //       ctx: context),
-              // ),
-              onTap: () =>
-                  Navigator.push(context, ConcentricPageRoute(builder: (ctx) {
-                return BmiPage();
-              })),
+              onTap: () => Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    duration: Duration(milliseconds: 300),
+                    reverseDuration: Duration(milliseconds: 250),
+                    child: BmiPage(),
+                    inheritTheme: true,
+                    ctx: context),
+              ),
               text: "CALCULATE YOUR BMI",
             )
           ],
@@ -128,6 +124,13 @@ class Height extends StatefulWidget {
 }
 
 class _HeightState extends State<Height> {
+  bool onChenging;
+  @override
+  void initState() {
+    super.initState();
+    onChenging = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ReusableCard(
@@ -145,8 +148,13 @@ class _HeightState extends State<Height> {
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: <Widget>[
-                Text(controller.getHeight().toInt().toString(),
-                    style: kNumberTextStyle),
+                AnimatedDefaultTextStyle(
+                    child: Text(
+                      controller.getHeight().toInt().toString(),
+                    ),
+                    style:
+                        onChenging ? kActiveNumberTextStyle : kNumberTextStyle,
+                    duration: Duration(milliseconds: 200)),
                 Text(controller.heightUnit(), style: kLabelTextStyle)
               ]),
           SliderTheme(
@@ -161,6 +169,16 @@ class _HeightState extends State<Height> {
                 inactiveColor: kInactiveSlideColor,
                 min: MIN_HIEGHT,
                 max: MAX_HEIGHT,
+                onChangeStart: (value) {
+                  setState(() {
+                    onChenging = true;
+                  });
+                },
+                onChangeEnd: (value) {
+                  setState(() {
+                    onChenging = false;
+                  });
+                },
                 onChanged: (value) => setState(() {
                       controller.setHeight(value);
                     })),
@@ -184,7 +202,7 @@ class _GenderRowState extends State<GenderRow> {
   @override
   void initState() {
     super.initState();
-    maleCardColor = kActiveContainerColor;
+    maleCardColor = kBottomContainerColor;
     femaleCardColor = kInactiveContainerColor;
   }
 
@@ -197,7 +215,7 @@ class _GenderRowState extends State<GenderRow> {
 
   Color _dispatchSelectionColor(GenderType gender) =>
       controller.getSelectedGender() == gender
-          ? kActiveContainerColor
+          ? kBottomContainerColor
           : kInactiveContainerColor;
 
   @override
@@ -206,21 +224,37 @@ class _GenderRowState extends State<GenderRow> {
       children: <Widget>[
         Expanded(
           child: ReusableCard(
-            color: _dispatchSelectionColor(GenderType.MALE),
             onTap: () => _toggleGender(GenderType.MALE),
-            child: GenderContainer(
-              text: "MALE",
-              icon: FontAwesomeIcons.mars,
+            gender: GenderType.MALE,
+            color: _dispatchSelectionColor(GenderType.MALE),
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 250),
+              decoration: BoxDecoration(
+                  color: _dispatchSelectionColor(GenderType.MALE),
+                  borderRadius: BorderRadius.circular(30)),
+              child: GenderContainer(
+                text: "MALE",
+                gender: GenderType.MALE,
+                icon: FontAwesomeIcons.mars,
+              ),
             ),
           ),
         ),
         Expanded(
-          child: ReusableCard(
-              color: _dispatchSelectionColor(GenderType.FEMALE),
-              onTap: () => _toggleGender(GenderType.FEMALE),
+            child: ReusableCard(
+          onTap: () => _toggleGender(GenderType.FEMALE),
+          gender: GenderType.FEMALE,
+          color: _dispatchSelectionColor(GenderType.FEMALE),
+          child: AnimatedContainer(
+              duration: Duration(milliseconds: 250),
+              decoration: BoxDecoration(
+                  color: _dispatchSelectionColor(GenderType.FEMALE),
+                  borderRadius: BorderRadius.circular(30)),
               child: GenderContainer(
-                  text: "FEMALE", icon: FontAwesomeIcons.venus)),
-        )
+                  text: "FEMALE",
+                  gender: GenderType.FEMALE,
+                  icon: FontAwesomeIcons.venus)),
+        ))
       ],
     );
   }
