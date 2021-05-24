@@ -3,8 +3,9 @@ const double MIN_HIEGHT = 100;
 const CENTIMETER = 'cm';
 const KILOGRAM = "kg";
 const AGEUNIT = "yo";
-enum GenderType {MALE,FEMALE}
+enum GenderType { MALE, FEMALE }
 
+const OBESE = "obese";
 const OVERWEIGHT = "overweight";
 const NORMAL = "normal";
 const UNDERWEIGHT = "underweight";

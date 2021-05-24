@@ -18,7 +18,7 @@ class BMICalculator extends StatelessWidget {
           appBarTheme: kAppBarTheme),
       routes: {
         input_route: (context) => InputPage(),
-        bmi_route: (context) => BmiPage()
+        bmi_route: (context) => BmiPage(),
       },
       initialRoute: input_route,
     );

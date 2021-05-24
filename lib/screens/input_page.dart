@@ -207,10 +207,15 @@ class _GenderRowState extends State<GenderRow> {
   }
 
   void _toggleGender(GenderType gender) {
-    if (gender == controller.getSelectedGender()) return;
-    setState(() {
-      controller.toggleGender(gender);
-    });
+    if (gender == controller.getSelectedGender()) {
+      setState(() {
+        controller.toggleGender(null);
+      });
+    } else {
+      setState(() {
+        controller.toggleGender(gender);
+      });
+    }
   }
 
   Color _dispatchSelectionColor(GenderType gender) =>

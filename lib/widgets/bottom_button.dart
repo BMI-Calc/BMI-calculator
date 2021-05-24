@@ -54,7 +54,9 @@ class _BottomButtonState extends State<BottomButton> {
           child: Center(
             child: Text(this.widget.text,
                 style: TextStyle(
-                    color: !onTapping ? Colors.white : Color(0xffd3d3d3),
+                    color: !onTapping
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.60),
                     fontSize: 18,
                     letterSpacing: 3)),
           ),
